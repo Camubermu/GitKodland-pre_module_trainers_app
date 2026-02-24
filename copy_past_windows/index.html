@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trainer: Copy and Paste</title>
+  <title>Entrenador: Copiar y Pegar</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <div class="container">
 
-  <!-- Progress only (as in the previous one) -->
-  <div class="progress-wrap" aria-label="Progress">
+  <!-- Progreso -->
+  <div class="progress-wrap" aria-label="Progreso">
     <div class="progress-row">
       <div class="progress-text">
-        Progress: <b><span id="progressCount">0</span>/<span id="progressTotal">10</span></b>
-        <span class="level">Level: <b id="levelText">1</b></span>
+        Progreso: <b><span id="progressCount">0</span>/<span id="progressTotal">10</span></b>
+        <span class="level">Nivel: <b id="levelText">1</b></span>
       </div>
-      <button id="resetBtn" class="ghost" type="button">Reset</button>
+      <button id="resetBtn" class="ghost" type="button">Reiniciar</button>
     </div>
     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
       <div class="progress-fill" id="progressFill"></div>
@@ -25,46 +25,54 @@
   </div>
 
   <div class="main">
-    <button id="startButton" class="primary">START</button>
+    <button id="startButton" class="primary">INICIAR</button>
 
-    <!-- Status line: replaced with CORRECT/INCORRECT for 2–3 sec -->
-    <div id="statusLine" class="statusLine" style="display:none;">Copy and paste the text:</div>
+    <div id="statusLine" class="statusLine" style="display:none;">
+      Copia y pega el texto:
+    </div>
 
     <div class="game" id="gameContainer" style="display:none;">
       <div class="task">
-        <div class="taskLabel">Text to copy:</div>
+        <div class="taskLabel">Texto para copiar:</div>
         <div id="randomText" class="randomText"></div>
       </div>
 
-      <textarea id="pasteArea" class="pasteArea" placeholder="Paste here (Ctrl+V)"></textarea>
+      <textarea id="pasteArea" class="pasteArea" placeholder="Pega aquí (Ctrl+V)"></textarea>
 
-      <div id="keyboard" class="keyboard" aria-label="Keyboard">
+      <div id="keyboard" class="keyboard" aria-label="Teclado">
         <div class="key" id="ctrlKey">CTRL</div>
         <div class="key" id="cKey">C</div>
         <div class="key" id="vKey">V</div>
       </div>
 
       <div class="hint" id="hint">
-        Hint: select the text with your mouse → <span class="kbd">Ctrl</span>+<span class="kbd">C</span> → click in the field → <span class="kbd">Ctrl</span>+<span class="kbd">V</span>
+        Consejo: selecciona el texto con el ratón → 
+        <span class="kbd">Ctrl</span>+<span class="kbd">C</span> → 
+        haz clic en el campo → 
+        <span class="kbd">Ctrl</span>+<span class="kbd">V</span>
       </div>
     </div>
   </div>
 
-  <!-- WIN MODAL -->
+  <!-- MODAL GANADOR -->
   <div class="modal-backdrop" id="winModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-label="You Win">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Has ganado">
       <div class="modal-header">
-        <div class="modal-title">You Win! 🎉</div>
-        <button class="modal-close" id="closeModal" type="button" aria-label="Close">✕</button>
+        <div class="modal-title">¡Ganaste! 🎉</div>
+        <button class="modal-close" id="closeModal" type="button" aria-label="Cerrar">✕</button>
       </div>
 
       <div class="modal-body">
         <div class="win-image" id="winImage"></div>
-        <p class="modal-text">Your copy/paste skill has been levelled up!</p>
+        <p class="modal-text">
+          ¡Tu habilidad de copiar y pegar ha mejorado!
+        </p>
       </div>
 
       <div class="modal-actions">
-        <button id="restartButton" class="primary" type="button">RESTART</button>
+        <button id="restartButton" class="primary" type="button">
+          VOLVER A EMPEZAR
+        </button>
       </div>
     </div>
   </div>
