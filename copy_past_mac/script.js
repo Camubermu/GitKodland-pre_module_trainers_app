@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let targetText = "";
   let lastAction = { copied: false, pasted: false, usedCmd: false };
 
-  // Victory SVG
+  // SVG de victoria
   winImage.innerHTML = `
-    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="You Win">
+    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Has ganado">
       <defs>
         <linearGradient id="g" x1="0" x2="1">
           <stop offset="0" stop-color="#4CAF50"/>
@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
       <rect x="40" y="40" width="720" height="240" rx="28" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)"/>
       <circle cx="160" cy="160" r="74" fill="url(#g)"/>
       <path d="M130 165l20 22 44-54" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">MAC PRO!</text>
+      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">¡PRO EN MAC!</text>
       <text x="280" y="200" fill="rgba(255,255,255,0.85)" font-size="22" font-weight="700" font-family="Segoe UI, Arial">
-        Copy & Paste levelled up
+        Tu nivel de copiar y pegar ha mejorado
       </text>
     </svg>
   `;
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     statusTimer = setTimeout(() => {
       statusLine.classList.remove("ok", "bad");
-      statusLine.textContent = "Copy and paste the text:";
+      statusLine.textContent = "Copia y pega el texto:";
     }, ms);
   }
 
@@ -137,8 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return out;
   }
 
-  // Text: as in the example, spaces between tokens are required,
-  // and varying lengths, but must FIT within the block (by height).
   function generateTargetTextFit() {
     const maxAttempts = 50;
 
@@ -172,11 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     generateTargetTextFit();
 
-    // REMOVE ANY SELECTION (as requested)
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
 
-    // focus on the field — let them paste
     setTimeout(() => inputField.focus(), 0);
   }
 
@@ -184,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     started = true;
     startButton.style.display = "none";
     statusLine.style.display = "block";
-    statusLine.textContent = "Copy and paste the text:";
+    statusLine.textContent = "Copia y pega el texto:";
     gameContainer.style.display = "grid";
     setProgressUI();
     newRound();
@@ -204,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       randomTextEl.classList.add("good");
       randomTextEl.classList.remove("bad");
-      showStatus("CORRECT ✅", "ok", 2500);
+      showStatus("CORRECTO ✅", "ok", 2500);
 
       if (round >= TOTAL_ROUNDS) {
         openModal();
@@ -215,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       randomTextEl.classList.add("bad");
       randomTextEl.classList.remove("good");
-      showStatus("INCORRECT ❌", "bad", 2500);
+      showStatus("INCORRECTO ❌", "bad", 2500);
 
       setTimeout(() => {
         inputField.textContent = "";
@@ -224,7 +220,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Key highlighting (Mac): Meta = ⌘
   document.addEventListener("keydown", (event) => {
     const k = event.key.toLowerCase();
 
@@ -232,7 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (k === "c") cKey.classList.add("pressed");
     if (k === "v") vKey.classList.add("pressed");
 
-    // Recording that ⌘ was used
     if (event.metaKey) lastAction.usedCmd = true;
   });
 
@@ -246,14 +240,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("blur", resetKeysState);
 
-  // Counting copy/paste (optional, but useful for fairness)
   document.addEventListener("copy", () => { lastAction.copied = true; });
   inputField.addEventListener("paste", () => { lastAction.pasted = true; });
 
-  //Checking the answer via input
   inputField.addEventListener("input", checkAnswer);
 
-  // buttons
   startButton.addEventListener("click", start);
   resetBtn.addEventListener("click", resetAll);
 
