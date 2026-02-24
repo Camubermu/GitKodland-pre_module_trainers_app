@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // SVG de victoria
   winImage.innerHTML = `
-    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Has ganado">
+    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Juego completado con éxito">
       <defs>
         <linearGradient id="g" x1="0" x2="1">
           <stop offset="0" stop-color="#4CAF50"/>
@@ -45,9 +45,11 @@ document.addEventListener("DOMContentLoaded", () => {
       <rect x="40" y="40" width="720" height="240" rx="28" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)"/>
       <circle cx="160" cy="160" r="74" fill="url(#g)"/>
       <path d="M130 165l20 22 44-54" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">¡PRO EN MAC!</text>
+      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">
+        ¡NIVEL COMPLETADO!
+      </text>
       <text x="280" y="200" fill="rgba(255,255,255,0.85)" font-size="22" font-weight="700" font-family="Segoe UI, Arial">
-        Tu nivel de copiar y pegar ha mejorado
+        Has dominado copiar y pegar
       </text>
     </svg>
   `;
@@ -83,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     statusTimer = setTimeout(() => {
       statusLine.classList.remove("ok", "bad");
-      statusLine.textContent = "Copia y pega el texto:";
+      statusLine.textContent = "Copia el texto superior y pégalo abajo:";
     }, ms);
   }
 
@@ -180,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     started = true;
     startButton.style.display = "none";
     statusLine.style.display = "block";
-    statusLine.textContent = "Copia y pega el texto:";
+    statusLine.textContent = "Copia el texto superior y pégalo abajo:";
     gameContainer.style.display = "grid";
     setProgressUI();
     newRound();
@@ -200,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       randomTextEl.classList.add("good");
       randomTextEl.classList.remove("bad");
-      showStatus("CORRECTO ✅", "ok", 2500);
+      showStatus("¡Correcto! ✅ Bien hecho.", "ok", 2500);
 
       if (round >= TOTAL_ROUNDS) {
         openModal();
@@ -211,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       randomTextEl.classList.add("bad");
       randomTextEl.classList.remove("good");
-      showStatus("INCORRECTO ❌", "bad", 2500);
+      showStatus("Incorrecto ❌ Intenta nuevamente.", "bad", 2500);
 
       setTimeout(() => {
         inputField.textContent = "";
