@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let targetText = "";
 
-  // victory svg
+  // SVG de victoria
   winImage.innerHTML = `
-    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="You Win">
+    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ganaste">
       <defs>
         <linearGradient id="g" x1="0" x2="1">
           <stop offset="0" stop-color="#4CAF50"/>
@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
       <rect x="40" y="40" width="720" height="240" rx="28" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)"/>
       <circle cx="160" cy="160" r="74" fill="url(#g)"/>
       <path d="M130 165l20 22 44-54" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">COPY & PASTE</text>
+      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">COPIAR Y PEGAR</text>
       <text x="280" y="200" fill="rgba(255,255,255,0.85)" font-size="22" font-weight="700" font-family="Segoe UI, Arial">
-        Skill levelled up
+        ¡Nivel aumentado!
       </text>
     </svg>
   `;
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     statusTimer = setTimeout(() => {
       statusLine.classList.remove("ok", "bad");
-      statusLine.textContent = "Copy and paste the text:";
+      statusLine.textContent = "Copia y pega el texto:";
     }, ms);
   }
 
@@ -118,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
     statusTimer = null;
   }
 
-  // ====== GENERATION: as in the previous one — varied text of varying lengths that fits ======
   function makeToken(len) {
     const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789^%$&@!?#";
     let out = "";
@@ -129,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function generateTargetTextFit() {
     const maxAttempts = 40;
 
-    // difficulty can be increased slightly with each level
     const tokensMin = 3;
     const tokensMax = Math.min(9, 6 + Math.floor(round / 2));
     const tokenLenMin = 5;
@@ -143,7 +141,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const candidate = tokens.join(" ");
       randomTextEl.textContent = candidate;
 
-      //  ok as long as it doesn't overflow by height
       if (randomTextEl.scrollHeight <= randomTextEl.clientHeight + 2) {
         targetText = candidate;
         return;
@@ -159,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     randomTextEl.classList.remove("good", "bad");
     generateTargetTextFit();
 
-    // removing any previous selection
     const sel = window.getSelection();
     if (sel) sel.removeAllRanges();
   }
@@ -168,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     started = true;
     startButton.style.display = "none";
     statusLine.style.display = "block";
-    statusLine.textContent = "Copy and paste the text:";
+    statusLine.textContent = "Copia y pega el texto:";
     gameContainer.style.display = "grid";
     setProgressUI();
     newRound();
@@ -189,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       randomTextEl.classList.add("good");
       randomTextEl.classList.remove("bad");
-      showStatus("CORRECT ✅", "ok", 2500);
+      showStatus("CORRECTO ✅", "ok", 2500);
 
       if (round >= TOTAL_ROUNDS) {
         openModal();
@@ -200,9 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       randomTextEl.classList.add("bad");
       randomTextEl.classList.remove("good");
-      showStatus("INCORRECT ❌", "bad", 2500);
+      showStatus("INCORRECTO ❌", "bad", 2500);
 
-      // clearing so they would paste anew, rather than 'appending'
       setTimeout(() => {
         pasteArea.value = "";
         pasteArea.focus();
@@ -210,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Key highlight
   document.addEventListener("keydown", (event) => {
     const k = event.key;
     if (k === "Control") ctrlKey.classList.add("pressed");
@@ -225,10 +219,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (k.toLowerCase() === "v") vKey.classList.remove("pressed");
   });
 
-  // input check
   pasteArea.addEventListener("input", checkPaste);
 
-  // buttons
   startButton.addEventListener("click", start);
   resetBtn.addEventListener("click", resetAll);
 
@@ -238,6 +230,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   restartButton.addEventListener("click", resetAll);
 
-  // init
   resetAll();
 });
