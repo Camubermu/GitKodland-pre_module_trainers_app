@@ -25,18 +25,18 @@ let total = 10;
 let level = 1;
 
 const texts = [
-  "Hello Mac",
-  "Coding is fun",
-  "Cyber security",
-  "Kodland School",
-  "Copy and paste",
-  "Level up skills",
-  "Practice daily",
-  "Digital world",
-  "Command C",
-  "Command V",
-  "Creative mind",
-  "Future programmer"
+  "Hola Mac",
+  "Programar es divertido",
+  "Ciberseguridad",
+  "Escuela Kodland",
+  "Copiar y pegar",
+  "Sube de nivel",
+  "Practica cada día",
+  "Mundo digital",
+  "Comando C",
+  "Comando V",
+  "Mente creativa",
+  "Programador del futuro"
 ];
 
 progressTotal.textContent = total;
@@ -75,7 +75,7 @@ function newRound() {
   randomText.textContent = getRandomText();
   inputField.textContent = "";
   copiedText = "";
-  statusLine.textContent = "Copy and paste the text:";
+  statusLine.textContent = "Copia y pega el texto:";
   statusLine.className = "statusLine";
   randomText.classList.remove("good", "bad");
 }
@@ -116,14 +116,14 @@ document.addEventListener("keydown", (e) => {
     inputField.textContent = copiedText;
 
     if (inputField.textContent === randomText.textContent) {
-      statusLine.textContent = "CORRECT ✅";
+      statusLine.textContent = "¡CORRECTO! ✅";
       statusLine.className = "statusLine ok";
       randomText.classList.add("good");
       score++;
       updateProgress();
       setTimeout(newRound, 800);
     } else {
-      statusLine.textContent = "INCORRECT ❌";
+      statusLine.textContent = "INCORRECTO ❌";
       statusLine.className = "statusLine bad";
       randomText.classList.add("bad");
     }
