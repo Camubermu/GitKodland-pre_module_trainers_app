@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let statusTimer = null;
   let targetText = "";
 
-  // Victory image (inline SVG)
+  // Imagen de victoria (SVG)
   winImage.innerHTML = `
-    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="You Win">
+    <svg width="92%" height="92%" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="¡Has ganado!">
       <defs>
         <linearGradient id="g" x1="0" x2="1">
           <stop offset="0" stop-color="#4CAF50"/>
@@ -38,14 +38,28 @@ document.addEventListener("DOMContentLoaded", () => {
           <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity="0.35"/>
         </filter>
       </defs>
-      <rect x="40" y="40" width="720" height="240" rx="28" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.18)"/>
+      <rect x="40" y="40" width="720" height="240" rx="28"
+        fill="rgba(255,255,255,0.08)"
+        stroke="rgba(255,255,255,0.18)"/>
       <g filter="url(#s)">
         <circle cx="160" cy="160" r="74" fill="url(#g)"/>
-        <path d="M130 165l20 22 44-54" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M130 165l20 22 44-54"
+          fill="none"
+          stroke="#fff"
+          stroke-width="14"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
       </g>
-      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900" font-family="Segoe UI, Arial">VERIFIED!</text>
-      <text x="280" y="200" fill="rgba(255,255,255,0.85)" font-size="22" font-weight="700" font-family="Segoe UI, Arial">
-        Selection skill levelled up
+      <text x="280" y="150" fill="#fff" font-size="44" font-weight="900"
+        font-family="Segoe UI, Arial">
+        ¡VERIFICADO!
+      </text>
+      <text x="280" y="200"
+        fill="rgba(255,255,255,0.85)"
+        font-size="22"
+        font-weight="700"
+        font-family="Segoe UI, Arial">
+        Tu habilidad de selección ha mejorado
       </text>
     </svg>
   `;
@@ -77,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     statusTimer = setTimeout(() => {
       statusLine.classList.remove("ok", "bad");
-      statusLine.textContent = "Select all the text inside the box:";
+      statusLine.textContent = "Selecciona todo el texto dentro del recuadro:";
     }, ms);
   }
 
@@ -112,13 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
     statusTimer = null;
   }
 
-  // ====== GENERATION: different strings of varying lengths, but they must fit ======
   function randInt(a, b) {
     return Math.floor(Math.random() * (b - a + 1)) + a;
   }
 
   function makeToken(len) {
-    // no spaces within a token, but special characters are allowed
     const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789^%$&@!?#";
     let out = "";
     for (let i = 0; i < len; i++) out += chars[randInt(0, chars.length - 1)];
@@ -126,11 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function generateTargetTextFit() {
-    // Goal: 1–2 lines in the field (approximately), spaces between tokens are required
-    // Trying several times until it fits by height.
     const maxAttempts = 40;
 
-    // Length parameters (these can be tweaked)
     const tokensMin = 3;
     const tokensMax = 8;
     const tokenLenMin = 5;
@@ -138,8 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const tokensCount = randInt(tokensMin, tokensMax);
-
       const tokens = [];
+
       for (let t = 0; t < tokensCount; t++) {
         tokens.push(makeToken(randInt(tokenLenMin, tokenLenMax)));
       }
@@ -147,15 +156,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const candidate = tokens.join(" ");
       selectableText.textContent = candidate;
 
-      // Check whether it overflows by height (important after rendering)
-      // clientHeight — visible height, scrollHeight — required content height
       if (selectableText.scrollHeight <= selectableText.clientHeight + 2) {
         targetText = candidate;
         return;
       }
     }
 
-    // If it didn't fit — fall back to a guaranteed short variant
     targetText = `${makeToken(10)} ${makeToken(8)} ${makeToken(7)} ${makeToken(6)}`;
     selectableText.textContent = targetText;
   }
@@ -167,10 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     statusLine.style.display = "block";
     statusLine.classList.remove("ok", "bad");
-    statusLine.textContent = "Select all the text inside the box:";
+    statusLine.textContent = "Selecciona todo el texto dentro del recuadro:";
 
-    // IMPORTANT: to make things fit, the text area height must be constrained.
-    // If your CSS has no fixed height — add one (see note below).
     generateTargetTextFit();
 
     setProgressUI();
@@ -210,19 +214,18 @@ document.addEventListener("DOMContentLoaded", () => {
       textFrame.classList.add("good");
       textFrame.classList.remove("bad");
 
-      showStatus("CORRECT ✅", "ok", 2500);
+      showStatus("¡CORRECTO! ✅", "ok", 2500);
       window.getSelection()?.removeAllRanges();
 
       if (round >= TOTAL_ROUNDS) {
         openModal();
       } else {
-        // new text each time
         generateTargetTextFit();
       }
     } else {
       textFrame.classList.add("bad");
       textFrame.classList.remove("good");
-      showStatus("INCORRECT ❌", "bad", 2500);
+      showStatus("INCORRECTO ❌", "bad", 2500);
     }
   }
 
@@ -245,6 +248,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   restartButton.addEventListener("click", resetAll);
 
-  // init
   resetAll();
 });
