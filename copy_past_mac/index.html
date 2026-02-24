@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="es-ES">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Copy / Paste (Mac)</title>
+  <title>Copiar / Pegar (Mac)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <div class="container">
 
-  <!-- Progress (no top text/goals) -->
-  <div class="progress-wrap" aria-label="Progress">
+  <!-- Progreso (sin texto superior/metas) -->
+  <div class="progress-wrap" aria-label="Progreso">
     <div class="progress-row">
       <div class="progress-text">
-        Progress: <b><span id="progressCount">0</span>/<span id="progressTotal">10</span></b>
-        <span class="level">Level: <b id="levelText">1</b></span>
+        Progreso: <b><span id="progressCount">0</span>/<span id="progressTotal">10</span></b>
+        <span class="level">Nivel: <b id="levelText">1</b></span>
       </div>
-      <button id="resetBtn" class="ghost" type="button">Reset</button>
+      <button id="resetBtn" class="ghost" type="button">Reiniciar</button>
     </div>
     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
       <div class="progress-fill" id="progressFill"></div>
@@ -25,42 +25,42 @@
   </div>
 
   <div class="main">
-    <button id="startButton" class="primary">START</button>
+    <button id="startButton" class="primary">INICIAR</button>
 
-    <!-- Status: this will contain the CORRECT/INCORRECT instruction -->
-    <div id="statusLine" class="statusLine" style="display:none;">Copy and paste the text:</div>
+    <!-- Estado: aquí aparecerá la instrucción CORRECTO/INCORRECTO -->
+    <div id="statusLine" class="statusLine" style="display:none;">Copia y pega el texto:</div>
 
     <div class="game" id="gameContainer" style="display:none;">
       <div class="task">
-        <div class="taskLabel">Text to copy:</div>
+        <div class="taskLabel">Texto para copiar:</div>
         <div id="randomText" class="randomText"></div>
       </div>
 
-      <div id="inputField" class="inputField" contenteditable="true" aria-label="Paste field"></div>
+      <div id="inputField" class="inputField" contenteditable="true" aria-label="Campo para pegar"></div>
 
-      <div class="keyboard" aria-label="Keyboard">
-        <div class="key" id="cmdKey">⌘ Command</div>
+      <div class="keyboard" aria-label="Teclado">
+        <div class="key" id="cmdKey">⌘ Comando</div>
         <div class="key" id="cKey">C</div>
         <div class="key" id="vKey">V</div>
       </div>
     </div>
   </div>
 
-  <!-- WIN MODAL -->
+  <!-- MODAL DE VICTORIA -->
   <div class="modal-backdrop" id="winModal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-label="You Win">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Has ganado">
       <div class="modal-header">
-        <div class="modal-title">You Win! 🎉</div>
-        <button class="modal-close" id="closeModal" type="button" aria-label="Close">✕</button>
+        <div class="modal-title">¡Ganaste! 🎉</div>
+        <button class="modal-close" id="closeModal" type="button" aria-label="Cerrar">✕</button>
       </div>
 
       <div class="modal-body">
         <div class="win-image" id="winImage"></div>
-        <p class="modal-text">Your copy/paste skill on Mac has been levelled up!</p>
+        <p class="modal-text">¡Tu habilidad de copiar/pegar en Mac ha subido de nivel!</p>
       </div>
 
       <div class="modal-actions">
-        <button id="restartButton" class="primary" type="button">RESTART</button>
+        <button id="restartButton" class="primary" type="button">REINICIAR</button>
       </div>
     </div>
   </div>
