@@ -1,137 +1,304 @@
-const startButton = document.getElementById("startButton");
-const gameContainer = document.getElementById("gameContainer");
-const randomText = document.getElementById("randomText");
-const inputField = document.getElementById("inputField");
-const statusLine = document.getElementById("statusLine");
-
-const progressCount = document.getElementById("progressCount");
-const progressTotal = document.getElementById("progressTotal");
-const progressFill = document.getElementById("progressFill");
-const levelText = document.getElementById("levelText");
-
-const cmdKey = document.getElementById("cmdKey");
-const cKey = document.getElementById("cKey");
-const vKey = document.getElementById("vKey");
-
-const resetBtn = document.getElementById("resetBtn");
-
-const winModal = document.getElementById("winModal");
-const closeModal = document.getElementById("closeModal");
-const restartButton = document.getElementById("restartButton");
-
-let copiedText = "";
-let score = 0;
-let total = 10;
-let level = 1;
-
-const texts = [
-  "Hola Mac",
-  "Programar es divertido",
-  "Ciberseguridad",
-  "Escuela Kodland",
-  "Copiar y pegar",
-  "Sube de nivel",
-  "Practica cada día",
-  "Mundo digital",
-  "Comando C",
-  "Comando V",
-  "Mente creativa",
-  "Programador del futuro"
-];
-
-progressTotal.textContent = total;
-
-function getRandomText() {
-  const index = Math.floor(Math.random() * texts.length);
-  return texts[index];
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-function updateProgress() {
-  progressCount.textContent = score;
-  const percent = (score / total) * 100;
-  progressFill.style.width = percent + "%";
-  document.querySelector(".progress-bar")
-    .setAttribute("aria-valuenow", score);
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url('fon.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
 
-  level = Math.floor(score / 3) + 1;
-  levelText.textContent = level;
+.container {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
 
-  if (score >= total) {
-    showWinModal();
+.progress-wrap {
+  margin-bottom: 30px;
+}
+
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.progress-text {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.level {
+  margin-left: 15px;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.ghost {
+  background: none;
+  border: 1px solid #999;
+  color: #666;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.ghost:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+}
+
+.primary:active {
+  transform: translateY(0);
+}
+
+.statusLine {
+  text-align: center;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  color: #333;
+  transition: all 0.3s;
+}
+
+.statusLine.ok {
+  background: #d4edda;
+  color: #155724;
+  font-weight: 600;
+}
+
+.statusLine.bad {
+  background: #f8d7da;
+  color: #721c24;
+  font-weight: 600;
+}
+
+.game {
+  display: grid;
+  gap: 20px;
+}
+
+.task {
+  background: #f9f9f9;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.taskLabel {
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.randomText {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  word-break: break-word;
+  min-height: 60px;
+  transition: all 0.3s;
+}
+
+.randomText.good {
+  color: #4caf50;
+  text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.randomText.bad {
+  color: #f44336;
+  text-shadow: 0 0 10px rgba(244, 67, 54, 0.3);
+}
+
+.inputField {
+  min-height: 80px;
+  padding: 14px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.inputField:focus {
+  border-color: #667eea;
+}
+
+.keyboard {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.key {
+  background: #f5f5f5;
+  border: 2px solid #ddd;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.key.pressed {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.win-image {
+  margin-bottom: 20px;
+}
+
+.modal-text {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  .randomText {
+    font-size: 20px;
+    min-height: 50px;
+  }
+
+  .inputField {
+    min-height: 70px;
+    font-size: 14px;
+  }
+
+  .primary {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .modal-title {
+    font-size: 20px;
   }
 }
-
-function showWinModal() {
-  winModal.style.display = "flex";
-  winModal.setAttribute("aria-hidden", "false");
-}
-
-function hideWinModal() {
-  winModal.style.display = "none";
-  winModal.setAttribute("aria-hidden", "true");
-}
-
-function newRound() {
-  randomText.textContent = getRandomText();
-  inputField.textContent = "";
-  copiedText = "";
-  statusLine.textContent = "Copia y pega el texto:";
-  statusLine.className = "statusLine";
-  randomText.classList.remove("good", "bad");
-}
-
-startButton.addEventListener("click", () => {
-  startButton.style.display = "none";
-  gameContainer.style.display = "grid";
-  statusLine.style.display = "block";
-  newRound();
-});
-
-resetBtn.addEventListener("click", () => {
-  score = 0;
-  updateProgress();
-  newRound();
-});
-
-closeModal.addEventListener("click", hideWinModal);
-restartButton.addEventListener("click", () => {
-  hideWinModal();
-  score = 0;
-  updateProgress();
-  newRound();
-});
-
-document.addEventListener("keydown", (e) => {
-  if (e.metaKey && e.key.toLowerCase() === "c") {
-    cmdKey.classList.add("pressed");
-    cKey.classList.add("pressed");
-
-    copiedText = randomText.textContent;
-  }
-
-  if (e.metaKey && e.key.toLowerCase() === "v") {
-    cmdKey.classList.add("pressed");
-    vKey.classList.add("pressed");
-
-    inputField.textContent = copiedText;
-
-    if (inputField.textContent === randomText.textContent) {
-      statusLine.textContent = "¡CORRECTO! ✅";
-      statusLine.className = "statusLine ok";
-      randomText.classList.add("good");
-      score++;
-      updateProgress();
-      setTimeout(newRound, 800);
-    } else {
-      statusLine.textContent = "INCORRECTO ❌";
-      statusLine.className = "statusLine bad";
-      randomText.classList.add("bad");
-    }
-  }
-});
-
-document.addEventListener("keyup", () => {
-  cmdKey.classList.remove("pressed");
-  cKey.classList.remove("pressed");
-  vKey.classList.remove("pressed");
-});
